@@ -4,7 +4,6 @@ resource "aws_instance" "web" {
   ami           = "ami-09d3b3274b6c5d4aa"
   instance_type = "var.Instance_type"
   key_name   = "${aws_key_pair.deployer.key_name}"
-  security_groups = "${aws_security_group.allow_tls.id}"
   tags = {
     Name = "HelloWorld"
   }
@@ -21,25 +20,4 @@ output "keyname" {
 	value = "${aws_key_pair.deployer.key_name}"
 }
 
-
-# create security gorup
-resource "aws_security_group" "allow_tls" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
- #if you not report then mention dynamic 
-  dynamic "ingress" {                                        
-     for_each =[22,80,443,3306]
-	   iterator = port
-	 content  {
-	      description      = "TLS from VPC"
-		  from_port        = port.value
-		  to_port          = port.value
-		  protocol         = "tcp"
-		  cidr_blocks      = ["0.0.0.0/0"]
-	 }
-  }
-}
-output securitygroupdetails{
-  value = "${aws_security_group.allow_tls.id}"
-}
 
