@@ -1,3 +1,3 @@
-variable "Instance_type" {
+variable "instance_type" {
   type = string
 }
