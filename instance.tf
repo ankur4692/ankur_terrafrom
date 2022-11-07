@@ -27,7 +27,7 @@ resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
  #if you not report then mention dynamic 
-  dynmic "ingress" {                                        
+  dynamic "ingress" {                                        
      for_each =[22,80,443,3306]
 	   iterator = port
 	 content  {
@@ -38,7 +38,7 @@ resource "aws_security_group" "allow_tls" {
 		  cidr_blocks      = ["0.0.0.0/0"]
 	 }
   }
-
+}
 output securitygroupdetails{
   value = "${aws_security_group.allow_tls.id}"
 }
